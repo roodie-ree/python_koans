@@ -31,10 +31,23 @@ from runner.koan import *
 # More scoring examples are given in the tests below:
 #
 # Your goal is to write the score method.
+from collections import Counter
 
 def score(dice):
-    # You need to write this method
-    pass
+    score = 0
+    count = Counter(dice)
+    if count[1] >= 3:
+        score += 1000 + (count[1] - 3) * 100
+    else:
+        score += count[1] * 100
+    if count[5] > 3:
+        score += (count[5] - 3) * 50
+    if count[5] < 3:
+        score += count[5] * 50
+    for (num, amount) in count.items():
+        if amount >= 3 and num != 1:
+            score += num * 100
+    return score
 
 class AboutScoringProject(Koan):
     def test_score_of_an_empty_list_is_zero(self):
